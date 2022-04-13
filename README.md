@@ -10,7 +10,7 @@ npx create-react-app .
 yarn add three@0.122.0 react-three-fiber@5.1.5 use-cannon
 ```
 
-### `ローカル環境`
+## ローカル環境
 
 ```
 yarn start
