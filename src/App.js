@@ -7,13 +7,15 @@ const Orbit = () => {
   const { camera, gl } = useThree();
   return <orbitControls args={[camera, gl.domElement]} />;
 };
+
+const Box = (props) => {
   const ref = useRef();
   useFrame((state) => {
     ref.current.rotation.x += 0.01;
     ref.current.rotation.y += 0.01;
   });
   return (
-    <mesh ref={ref}>
+    <mesh ref={ref} {...props}>
       <boxBufferGeometry />
       <meshBasicMaterial color='blue' />
     </mesh>
@@ -23,6 +25,7 @@ const Orbit = () => {
 export default function App() {
   return (
     <div style={{ height: "100vh" }}>
+        <Box position={[-1, 1, 1]} />
         <Orbit />
       </Canvas>
     </div>
