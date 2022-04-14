@@ -25,6 +25,7 @@ const Box = (props) => {
 export default function App() {
   return (
     <div style={{ height: "100vh" }}>
+      <Canvas style={{ background: "black" }} camera={{ position: [3, 3, 3] }}>
         <Box position={[-1, 1, 1]} />
         <Orbit />
         <axesHelper args={[5]} />
