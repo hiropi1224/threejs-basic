@@ -1,66 +1,37 @@
-import "./App.css";
-import * as THREE from "three";
-function App() {
-  // シーンを追加
-  const scene = new THREE.Scene();
+import { useRef, useState } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
 
-  // カメラを追加
-  const camera = new THREE.PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
+function Box(props) {
+  // This reference gives us direct access to the THREE.Mesh object
+  const ref = useRef();
+  // Hold state for hovered and clicked events
+  const [hovered, hover] = useState(false);
+  const [clicked, click] = useState(false);
+  // Subscribe this component to the render-loop, rotate the mesh every frame
+  useFrame((state, delta) => (ref.current.rotation.x += 0.01));
+  // Return the view, these are regular Threejs elements expressed in JSX
+  return (
+    <mesh
+      {...props}
+      ref={ref}
+      scale={clicked ? 1.5 : 1}
+      onClick={(event) => click(!clicked)}
+      onPointerOver={(event) => hover(true)}
+      onPointerOut={(event) => hover(false)}
+    >
+      <boxGeometry />
+      <meshStandardMaterial color={hovered ? "hotpink" : "orange"} />
+    </mesh>
   );
-
-  // レンダラーを追加
-  const renderer = new THREE.WebGLRenderer();
-
-  // レンダラーのサイズを指定
-  renderer.setSize(window.innerWidth, window.innerHeight);
-
-  // レンダラーのdomElementをbodyに追加
-  document.body.innerHTML = "";
-  document.body.appendChild(renderer.domElement);
-
-  // ジオメトリを追加
-  const geometry = new THREE.BoxGeometry();
-
-  // マテリアルを追加
-  const material = new THREE.MeshBasicMaterial({
-    color: "blue",
-  });
-
-  // カメラのポジションを変更
-  camera.position.z = 5;
-
-  // メッシュを追加
-  const cube = new THREE.Mesh(geometry, material);
-
-  // シーンにキューブを追加
-  scene.add(cube);
-
-  // アニメーション関数
-  const animate = () => {
-    requestAnimationFrame(animate);
-    // cubeのx,y方向の動きを付ける
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
-    renderer.render(scene, camera);
-  };
-
-  // アニメーション関数を実行
-  animate();
-
-  // 画面幅を変えたときにリサイズする
-  window.addEventListener("resize", () => {
-    // リサイズの度にレンダラーのサイズをセットする
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    // カメラのアスペクトを更新
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-  });
-
-  return null;
 }
 
-export default App;
+export default function App() {
+  return (
+    <Canvas>
+      <ambientLight intensity={0.5} />
+      <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
+      <pointLight position={[-10, -10, -10]} />
+      <Box />
+    </Canvas>
+  );
+}
