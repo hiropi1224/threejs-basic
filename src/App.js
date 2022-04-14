@@ -27,6 +27,7 @@ export default function App() {
     <div style={{ height: "100vh" }}>
         <Box position={[-1, 1, 1]} />
         <Orbit />
+        <axesHelper args={[5]} />
       </Canvas>
     </div>
   );
