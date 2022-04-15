@@ -26,6 +26,8 @@ export default function App() {
   return (
     <div style={{ height: "100vh" }}>
       <Canvas style={{ background: "black" }} camera={{ position: [3, 3, 3] }}>
+        {/* ライトを追加 */}
+        <ambientLight intensity={0.5} />
         <Box position={[-1, 1, 1]} />
         <Orbit />
         <axesHelper args={[5]} />
