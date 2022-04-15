@@ -17,7 +17,7 @@ const Box = (props) => {
   return (
     <mesh ref={ref} {...props}>
       <boxBufferGeometry />
-      <meshBasicMaterial color='blue' />
+      <meshPhysicalMaterial color='blue' />
     </mesh>
   );
 };
